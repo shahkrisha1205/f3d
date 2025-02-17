@@ -1624,25 +1624,23 @@ void F3DStarter::AddCommands()
     return f3d::options::parse<bool>(args[0]);
   };
 
-  // Simplified code without lambda
-
-  interactor.addCommand("remove_file_groups",
-    [this](const std::vector<std::string>&)
+  void removeFileGroups(const std::vector<std::string>&)
+  {
+    if (!this->Internals->AppOptions.NoRender)
     {
-      if (!this->Internals->AppOptions.NoRender)
-      {
-        this->Internals->Engine->getInteractor().stopAnimation();
-      }
-      f3d::scene& scene = this->Internals->Engine->getScene();
-      scene.clear();
-      this->Internals->FilesGroups.clear();
-      this->Internals->LoadedFiles.clear();
-      this->ResetWindowName();
-      f3d::options& options = this->Internals->Engine->getOptions();
-      options.ui.dropzone = true;
-      options.ui.filename_info = "";
-    });
+      this->Internals->Engine->getInteractor().stopAnimation();
+    }
+    f3d::scene& scene = this->Internals->Engine->getScene();
+    scene.clear();
+    this->Internals->FilesGroups.clear();
+    this->Internals->LoadedFiles.clear();
+    this->ResetWindowName();
+    f3d::options& options = this->Internals->Engine->getOptions();
+    options.ui.dropzone = true;
+    options.ui.filename_info = "";
+  }
 
+  interactor.addCommand("remove_file_groups", removeFileGroups);
 
   interactor.addCommand("load_previous_file_group",
     [this](const std::vector<std::string>& args)
