@@ -1624,6 +1624,8 @@ void F3DStarter::AddCommands()
     return f3d::options::parse<bool>(args[0]);
   };
 
+  // It works!!
+
   interactor.addCommand("load_previous_file_group",
     [this](const std::vector<std::string>& args)
     {
